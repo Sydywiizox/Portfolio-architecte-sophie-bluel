@@ -47,11 +47,15 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
+:root {
+	--green : #1D6154;
+}
 body {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	line-height: 1.2em;
 }
 header {
 	display: flex;
@@ -82,7 +86,7 @@ h2{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
-	color: #1D6154
+	color: var(--green)
 }
 nav ul {
 	display: flex;
@@ -135,6 +139,7 @@ li:hover {
 
 .gallery img {
 	width: 100%;
+	/*Enlever si inutile*/
 	height: 100%;
 	object-fit: cover;
 }
@@ -174,7 +179,7 @@ input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;
-	background-color: #1D6154;
+	background-color: var(--green);
 	margin : 2em auto ;
 	width: 180px;
 	text-align: center;
@@ -185,5 +190,31 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.categories {
+	height: 38px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin-block: 50px;
+}
+
+.categorie {
+	height: 100%;
+	color: var(--green);
+	background-color: transparent;
+	border: 1px solid var(--green);
+	padding-inline: 20px;
+	border-radius: 60px;
+	font-size: 16px;
+	font-weight: 700;
+	font-family: 'Syne';
+}
+
+.categorie.active, .categorie:hover {
+	color: #fff;
+	background-color: var(--green);
 }
 
