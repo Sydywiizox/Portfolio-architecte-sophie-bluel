@@ -23,6 +23,24 @@ if (window.location.href.includes("index.html")) {
         });
     }
 
+    function displayGallery(works, element) {
+        works.forEach((work) => {
+            console.log(work);
+            const img = document.createElement("img");
+            img.src = work.imageUrl;
+            img.alt = work.title;
+            const divImg = document.createElement("div");
+            divImg.setAttribute("img-id", work.id)
+            const trash = document.createElement("i")
+            trash.classList.add("fa-solid", "fa-trash-can")
+            trash.addEventListener("click", deleteImage(id))
+            console.log(divImg)
+            divImg.appendChild(img);
+            divImg.appendChild(trash);
+            element.appendChild(divImg);
+        });
+    }
+
     fetch(getWorksUrl)
         .then((response) => response.json())
         .then((works) => {
@@ -96,6 +114,7 @@ if (window.location.href.includes("index.html")) {
         modal
             .querySelector(".js-modal-stop")
             .addEventListener("click", stopPropagation);
+        loadGallery()
     };
 
     const closeModal = function (e) {
@@ -174,6 +193,27 @@ if (window.location.href.includes("index.html")) {
         console.log(modal);
     };
 
+    function loadGallery() {
+        const gallery = document.createElement("div");
+        console.log(gallery)
+        gallery.classList.add("modal-grid");
+        fetch(getWorksUrl)
+            .then((response) => response.json())
+            .then((works) => {
+                allWorks = works;
+                displayGallery(allWorks, gallery);
+            })
+            .catch((error) =>
+                console.error(
+                    "Erreur lors de la récupération des travaux :",
+                    error
+                )
+            );
+        modal
+            .querySelector(".modal-content h2")
+            .insertAdjacentElement("afterend", gallery);
+    }
+
     const galleryModal = () => {
         if (modal && modal.querySelector(".modal-content .backButton")) {
             modal.querySelector(".modal-content .backButton").remove();
@@ -181,16 +221,7 @@ if (window.location.href.includes("index.html")) {
 
         modal.querySelector(".modal-content h2").textContent = "Galerie photo";
         if (!(modal && modal.querySelector(".modal-content .modal-grid"))) {
-            const gallery = document.createElement("div");
-            gallery.classList.add("modal-grid");
-            gallery.innerHTML = `
-                <div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
-                <div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
-                <div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
-            `;
-            modal
-                .querySelector(".modal-content h2")
-                .insertAdjacentElement("afterend", gallery);
+            loadGallery();
         }
 
         modal.querySelector(".modal-content button").textContent =
