@@ -13,9 +13,13 @@
         <meta name="description" content="" />
         <link rel="stylesheet" href="./assets/style.css" />
         <script src="scripts/script.js" defer></script>
+        <script
+            src="https://kit.fontawesome.com/3a1761a339.js"
+            crossorigin="anonymous"
+        ></script>
     </head>
     <body>
-		<div class="edit">Modifier</div>
+        <div class="edit"><i class="fa-regular fa-pen-to-square"></i>Mode édition</div>
         <header>
             <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
             <nav>
@@ -59,20 +63,33 @@
                 </article>
             </section>
             <section id="portfolio">
-                <h2>Mes Projets</h2>
-				<a class="js-modal" href="#modal">Modifier</a>
-				<aside id="modal" class="modal">
-					<div class="modal-wrapper js-modal-stop" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="titlemodal">
-						<button class="js-modal-close">X</button>
-						<h2 id="titlemodal">Modal</h2>
-						<p>Ma boite modal</p>
-						<a href="">aaa</a>
-						<a href="">aaa</a>
-						<input type="email" name="email" id="email" />
-						<a href="">aaa</a>
-						<input type="email" name="email" id="email" />
-					</div>
-				</aside>
+                <div class="header-container">
+					<h2>Mes Projets</h2>
+					<a class="js-modal" href="#modal"><i class="fa-regular fa-pen-to-square"></i>modifier</a>
+				</div>
+                <aside id="modal" class="modal">
+                    <div
+                        class="modal-wrapper js-modal-stop"
+                        aria-hidden="true"
+                        role="dialog"
+                        aria-modal="false"
+                        aria-labelledby="titlemodal"
+                    >
+                        <button class="js-modal-close">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                        <div class="modal-content">
+                            <h2>Galerie photo</h2>
+                            <div class="modal-grid">
+								<div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
+								<div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
+								<div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
+							</div>
+                            <hr />
+                            <button class="addPhoto">Ajouter une photo</button>
+                        </div>
+                    </div>
+                </aside>
                 <div class="categories"></div>
                 <div class="gallery"></div>
             </section>

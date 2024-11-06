@@ -116,6 +116,7 @@ if (window.location.href.includes("index.html")) {
         modal
             .querySelector(".js-modal-stop")
             .removeEventListener("click", stopPropagation);
+        galleryModal();
     };
 
     const stopPropagation = function (e) {
@@ -148,6 +149,63 @@ if (window.location.href.includes("index.html")) {
             focusInModal(e);
         }
     });
+
+    const addPhotoModal = () => {
+        const addPhotoButton = document.querySelector(".modal-content button");
+        addPhotoButton.removeEventListener("click", addPhotoModal);
+        modal.querySelector(".modal-content h2").textContent = "Ajout photo";
+        modal.querySelector(".modal-content button").textContent = "Valider";
+        const backButton = document.createElement("button");
+        backButton.classList.add("backButton");
+        backButton.innerHTML = `
+            <i class="fa-solid fa-arrow-left"></i> Retour
+        `;
+        const form = document.createElement("div");
+        form.classList.add("modal-form");
+        modal
+            .querySelector(".modal-content h2")
+            .insertAdjacentElement("afterend", form);
+        modal.querySelector(".modal-content").prepend(backButton);
+        backButton.addEventListener("click", galleryModal);
+        if (modal && modal.querySelector(".modal-content .modal-grid")) {
+            modal.querySelector(".modal-content .modal-grid").remove();
+        }
+
+        console.log(modal);
+    };
+
+    const galleryModal = () => {
+        if (modal && modal.querySelector(".modal-content .backButton")) {
+            modal.querySelector(".modal-content .backButton").remove();
+        }
+
+        modal.querySelector(".modal-content h2").textContent = "Galerie photo";
+        if (!(modal && modal.querySelector(".modal-content .modal-grid"))) {
+            const gallery = document.createElement("div");
+            gallery.classList.add("modal-grid");
+            gallery.innerHTML = `
+                <div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
+                <div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
+                <div>img</div><div>img</div><div>img</div><div>img</div><div>img</div>
+            `;
+            modal
+                .querySelector(".modal-content h2")
+                .insertAdjacentElement("afterend", gallery);
+        }
+
+        modal.querySelector(".modal-content button").textContent =
+            "Ajouter une photo";
+        if (modal && modal.querySelector(".modal-content .modal-form")) {
+            modal.querySelector(".modal-content .modal-form").remove();
+        }
+        const addPhotoButton = document.querySelector(".modal-content button");
+        console.log(addPhotoButton);
+        addPhotoButton.addEventListener("click", addPhotoModal);
+        console.log(modal);
+    };
+    const addPhotoButton = document.querySelector(".modal-content button");
+    console.log(addPhotoButton);
+    addPhotoButton.addEventListener("click", addPhotoModal);
 }
 
 if (window.location.href.includes("login.html")) {
