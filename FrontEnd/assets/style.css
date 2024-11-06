@@ -102,6 +102,10 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+a {
+	text-decoration: none;
+	color: inherit;
+}
 #introduction {
 	display: flex;
 	align-items: center;
@@ -218,3 +222,71 @@ footer nav ul {
 	background-color: var(--green);
 }
 
+/* Log in */
+
+main.login-page  {
+	min-height: calc(100vh - 315px);
+}
+
+#login {
+	margin-top: 150px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 379px;
+	margin-inline: auto;
+}
+
+#login * {
+	box-sizing: border-box;
+	line-height: 1.2em;
+}
+
+#login h2 {
+	text-align: center;
+}
+
+#login form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#login form input {
+	width: 100%;
+	height: 51px;
+	border: 0;
+	filter: drop-shadow(0px 4px 14px rgba(0,0,0,0.09));
+}
+
+#login form label {
+	margin-bottom: 7px;
+}
+
+#login #email {
+	margin-bottom: 30px;
+}
+
+#login .input-group {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin-block: 37px;
+}
+
+#login button {
+	width: fit-content;
+	padding: 10px 39px;
+	border: none;
+	border-radius: 60px;
+	color: #fff;
+	background-color: var(--green);
+	font: inherit;
+	font-weight: 700;
+	margin-bottom: 28px;
+	cursor: pointer;
+}
+
+#login .forgot-password {
+	text-decoration: underline;
+}
