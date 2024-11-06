@@ -23,6 +23,24 @@ if (window.location.href.includes("index.html")) {
         });
     }
 
+    function deleteImage(id) {
+        fetch(getWorksUrl+`/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Opération réussie');
+            } else {
+                console.log('Erreur de suppression');
+            }
+        })
+        .catch(error => console.error('Erreur:', error)); 
+    }
+
     function displayGallery(works, element) {
         works.forEach((work) => {
             console.log(work);
@@ -33,7 +51,7 @@ if (window.location.href.includes("index.html")) {
             divImg.setAttribute("img-id", work.id)
             const trash = document.createElement("i")
             trash.classList.add("fa-solid", "fa-trash-can")
-            trash.addEventListener("click", deleteImage(id))
+            trash.addEventListener("click", deleteImage(work.id))
             console.log(divImg)
             divImg.appendChild(img);
             divImg.appendChild(trash);
