@@ -19,7 +19,9 @@
         ></script>
     </head>
     <body>
-        <div class="edit"><i class="fa-regular fa-pen-to-square"></i>Mode édition</div>
+        <div class="edit">
+            <i class="fa-regular fa-pen-to-square"></i>Mode édition
+        </div>
         <header>
             <h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
             <nav>
@@ -64,9 +66,11 @@
             </section>
             <section id="portfolio">
                 <div class="header-container">
-					<h2>Mes Projets</h2>
-					<a class="js-modal" href="#modal"><i class="fa-regular fa-pen-to-square"></i>modifier</a>
-				</div>
+                    <h2>Mes Projets</h2>
+                    <a class="js-modal" href="#modal"
+                        ><i class="fa-regular fa-pen-to-square"></i>modifier</a
+                    >
+                </div>
                 <aside id="modal" class="modal">
                     <div
                         class="modal-wrapper js-modal-stop"
@@ -78,8 +82,35 @@
                         <button class="js-modal-close">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
+                        <button class="backButton">
+                            <i
+                                class="fa-solid fa-arrow-left"
+                                aria-hidden="true"
+                            ></i>
+                        </button>
                         <div class="modal-content">
                             <h2>Galerie photo</h2>
+                            <div class="modal-form">
+                                <form id="imageForm">
+                                    <div class="addImage">
+                                        <i class="fa-regular fa-image"></i>
+                                        <label for="file-upload" class="file-upload-label">
+                                            + Ajouter photo
+                                        </label>
+                                        <input required type="file" id="file-upload" name="image" accept="image/*" style="display: none" />
+                                        <p>jpg, png : 4mo max</p>
+                                    </div>
+                                    <label for="image-title">Titre</label>
+                                    <input type="text" id="image-title" name="title" required />
+                                    <label for="image-categ">Catégorie</label>
+                                    <select id="image-categ" name="category" required>
+                                        <option value="1">Option 1</option>
+                                        <option value="2">Option 2</option>
+                                        <option value="3">Option 3</option>
+                                    </select>
+                                </form>                                
+                            </div>
+                            <div class="modal-grid"></div>
                             <hr />
                             <button class="addPhoto">Ajouter une photo</button>
                         </div>

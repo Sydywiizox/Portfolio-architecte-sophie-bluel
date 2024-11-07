@@ -27,6 +27,37 @@ if (window.location.href.includes("index.html")) {
         document.querySelector(`.gallery figure[img-id="${id}"]`).remove();
     }
 
+    function postImage(formData) {
+        const token = localStorage.getItem("auth_token");
+        if (!token) {
+            console.error("Token manquant ou invalide");
+            return;
+        }
+    
+        fetch(getWorksUrl, {
+            method: "POST",
+            body: formData,  // Envoi de FormData
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            if (!response.ok) {
+                return response.text().then((text) => {
+                    console.error("Erreur serveur:", text);  // Log de l'erreur complète
+                    throw new Error(text);  // Lancer l'erreur avec texte de la réponse
+                });
+            }
+            return response.json();  // On traite la réponse JSON si tout est OK
+        })
+        .then((data) => {
+            console.log("Image envoyée avec succès :", data);
+        })
+        .catch((error) => {
+            console.error("Erreur:", error);
+        });
+    }
+
     function deleteImage(id, divElement) {
         fetch(getWorksUrl + `/${id}`, {
             method: "DELETE",
@@ -38,9 +69,7 @@ if (window.location.href.includes("index.html")) {
             .then((response) => {
                 if (response.ok) {
                     console.log("Opération réussie");
-                    removeFromGallery(
-                        divElement.getAttribute("img-id")
-                    );
+                    removeFromGallery(divElement.getAttribute("img-id"));
                     divElement.remove();
                 } else {
                     console.log("Erreur de suppression");
@@ -123,7 +152,7 @@ if (window.location.href.includes("index.html")) {
     const selectable = "button, a, input, textarea";
     let focusable = [];
     previouslyFocus = null;
-
+    loadGallery();
     const openModal = function (e) {
         modal = document.querySelector(e.target.getAttribute("href"));
         focusable = Array.from(modal.querySelectorAll(selectable));
@@ -142,10 +171,6 @@ if (window.location.href.includes("index.html")) {
         modal
             .querySelector(".js-modal-stop")
             .addEventListener("click", stopPropagation);
-        if (modal && modal.querySelector(".modal-content .modal-grid")) {
-            modal.querySelector(".modal-content .modal-grid").remove();
-        }
-        loadGallery();
     };
 
     const closeModal = function (e) {
@@ -200,34 +225,45 @@ if (window.location.href.includes("index.html")) {
         }
     });
 
+    const sendForm = () => {
+        const form = document.querySelector("#imageForm");
+    
+        if (!form) {
+            console.log("Formulaire non trouvé");
+            return;
+        }
+    
+        const formData = new FormData(form);
+        console.log(formData)    
+    
+        // Log les données du formulaire pour vérifier
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);  // Log des clés et des valeurs
+        }
+        
+        postImage(formData);  // Envoi de l'image
+    };
+
     const addPhotoModal = () => {
-        const addPhotoButton = document.querySelector(".modal-content button");
+        const addPhotoButton = document.querySelector(
+            ".modal-content button.addPhoto"
+        );
         addPhotoButton.removeEventListener("click", addPhotoModal);
         modal.querySelector(".modal-content h2").textContent = "Ajout photo";
-        modal.querySelector(".modal-content button").textContent = "Valider";
-        const backButton = document.createElement("button");
-        backButton.classList.add("backButton");
-        backButton.innerHTML = `
-            <i class="fa-solid fa-arrow-left"></i> Retour
-        `;
-        const form = document.createElement("div");
-        form.classList.add("modal-form");
-        modal
-            .querySelector(".modal-content h2")
-            .insertAdjacentElement("afterend", form);
-        modal.querySelector(".modal-content").prepend(backButton);
+        addPhotoButton.textContent = "Valider";
+        addPhotoButton.addEventListener("click", sendForm);
+        const backButton = document.querySelector(".backButton");
+        backButton.style.display = "block";
         backButton.addEventListener("click", galleryModal);
-        if (modal && modal.querySelector(".modal-content .modal-grid")) {
-            modal.querySelector(".modal-content .modal-grid").remove();
-        }
-
+        const form = document.querySelector(".modal-form");
+        form.style.display = "block";
+        const grid = document.querySelector(".modal-grid");
+        grid.style.display = "none";
         console.log(modal);
     };
 
     function loadGallery() {
-        const gallery = document.createElement("div");
-        console.log(gallery);
-        gallery.classList.add("modal-grid");
+        const gallery = document.querySelector(".modal-grid");
         fetch(getWorksUrl)
             .then((response) => response.json())
             .then((works) => {
@@ -240,32 +276,29 @@ if (window.location.href.includes("index.html")) {
                     error
                 )
             );
-        modal
-            .querySelector(".modal-content h2")
-            .insertAdjacentElement("afterend", gallery);
     }
 
     const galleryModal = () => {
-        if (modal && modal.querySelector(".modal-content .backButton")) {
-            modal.querySelector(".modal-content .backButton").remove();
-        }
+        const backButton = document.querySelector(".backButton");
+        backButton.style.display = "none";
 
         modal.querySelector(".modal-content h2").textContent = "Galerie photo";
-        if (!(modal && modal.querySelector(".modal-content .modal-grid"))) {
-            loadGallery();
-        }
-
-        modal.querySelector(".modal-content button").textContent =
+        modal.querySelector(".modal-content button.addPhoto").textContent =
             "Ajouter une photo";
-        if (modal && modal.querySelector(".modal-content .modal-form")) {
-            modal.querySelector(".modal-content .modal-form").remove();
-        }
-        const addPhotoButton = document.querySelector(".modal-content button");
+        const form = document.querySelector(".modal-form");
+        form.style.display = "none";
+        const grid = document.querySelector(".modal-grid");
+        grid.style.display = "grid";
+        const addPhotoButton = document.querySelector(
+            ".modal-content button.addPhoto"
+        );
         console.log(addPhotoButton);
         addPhotoButton.addEventListener("click", addPhotoModal);
         console.log(modal);
     };
-    const addPhotoButton = document.querySelector(".modal-content button");
+    const addPhotoButton = document.querySelector(
+        ".modal-content button.addPhoto"
+    );
     console.log(addPhotoButton);
     addPhotoButton.addEventListener("click", addPhotoModal);
 }
@@ -306,7 +339,8 @@ if (localStorage.getItem("auth_token")) {
     const login = document.querySelector(".nav-login");
     const edit = document.querySelector(".edit");
     const editButton = document.querySelector(".js-modal");
-    const categories = document.querySelector(".categories")
+    const categories = document.querySelector(".categories");
+    const portfolioTitle = document.querySelector("#portfolio h2");
     const handleLogout = (event) => {
         event.preventDefault();
         localStorage.removeItem("auth_token");
@@ -314,6 +348,7 @@ if (localStorage.getItem("auth_token")) {
         edit.style.display = "none";
         editButton.style.display = "none";
         categories.style.display = "flex";
+        portfolioTitle.style.marginBottom = "0";
         login.removeEventListener("click", handleLogout);
     };
 
@@ -322,11 +357,12 @@ if (localStorage.getItem("auth_token")) {
         edit.style.display = "block";
         editButton.style.display = "block";
         categories.style.display = "none";
+        portfolioTitle.style.marginBottom = "92px";
         document.body.prepend();
         login.addEventListener("click", handleLogout);
     }
 
-    console.log(editButton)
+    console.log(editButton);
 }
 
 /*
