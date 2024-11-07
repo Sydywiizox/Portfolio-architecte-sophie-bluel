@@ -16,43 +16,53 @@ if (window.location.href.includes("index.html")) {
 
             const figcaption = document.createElement("figcaption");
             figcaption.textContent = work.title;
-
+            figure.setAttribute("img-id", work.id);
             figure.appendChild(img);
             figure.appendChild(figcaption);
             gallery.appendChild(figure);
         });
     }
 
-    function deleteImage(id) {
-        fetch(getWorksUrl+`/${id}`, {
-            method: 'DELETE',
+    function removeFromGallery(id) {
+        document.querySelector(`.gallery figure[img-id="${id}"]`).remove();
+    }
+
+    function deleteImage(id, divElement) {
+        fetch(getWorksUrl + `/${id}`, {
+            method: "DELETE",
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
             },
         })
-        .then(response => {
-            if (response.ok) {
-                console.log('Opération réussie');
-            } else {
-                console.log('Erreur de suppression');
-            }
-        })
-        .catch(error => console.error('Erreur:', error)); 
+            .then((response) => {
+                if (response.ok) {
+                    console.log("Opération réussie");
+                    removeFromGallery(
+                        divElement.getAttribute("img-id")
+                    );
+                    divElement.remove();
+                } else {
+                    console.log("Erreur de suppression");
+                }
+            })
+            .catch((error) => console.error("Erreur:", error));
     }
 
     function displayGallery(works, element) {
         works.forEach((work) => {
-            console.log(work);
             const img = document.createElement("img");
             img.src = work.imageUrl;
             img.alt = work.title;
+
             const divImg = document.createElement("div");
-            divImg.setAttribute("img-id", work.id)
-            const trash = document.createElement("i")
-            trash.classList.add("fa-solid", "fa-trash-can")
-            trash.addEventListener("click", deleteImage(work.id))
-            console.log(divImg)
+            divImg.setAttribute("img-id", work.id);
+
+            const trash = document.createElement("i");
+            trash.classList.add("fa-solid", "fa-trash-can");
+
+            trash.addEventListener("click", () => deleteImage(work.id, divImg));
+
             divImg.appendChild(img);
             divImg.appendChild(trash);
             element.appendChild(divImg);
@@ -132,7 +142,10 @@ if (window.location.href.includes("index.html")) {
         modal
             .querySelector(".js-modal-stop")
             .addEventListener("click", stopPropagation);
-        loadGallery()
+        if (modal && modal.querySelector(".modal-content .modal-grid")) {
+            modal.querySelector(".modal-content .modal-grid").remove();
+        }
+        loadGallery();
     };
 
     const closeModal = function (e) {
@@ -213,7 +226,7 @@ if (window.location.href.includes("index.html")) {
 
     function loadGallery() {
         const gallery = document.createElement("div");
-        console.log(gallery)
+        console.log(gallery);
         gallery.classList.add("modal-grid");
         fetch(getWorksUrl)
             .then((response) => response.json())
@@ -292,20 +305,28 @@ if (window.location.href.includes("login.html")) {
 if (localStorage.getItem("auth_token")) {
     const login = document.querySelector(".nav-login");
     const edit = document.querySelector(".edit");
+    const editButton = document.querySelector(".js-modal");
+    const categories = document.querySelector(".categories")
     const handleLogout = (event) => {
         event.preventDefault();
         localStorage.removeItem("auth_token");
         login.textContent = "login";
         edit.style.display = "none";
+        editButton.style.display = "none";
+        categories.style.display = "flex";
         login.removeEventListener("click", handleLogout);
     };
 
     if (localStorage.getItem("auth_token")) {
         login.textContent = "logout";
         edit.style.display = "block";
+        editButton.style.display = "block";
+        categories.style.display = "none";
         document.body.prepend();
         login.addEventListener("click", handleLogout);
     }
+
+    console.log(editButton)
 }
 
 /*

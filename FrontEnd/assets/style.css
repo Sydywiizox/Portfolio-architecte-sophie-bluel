@@ -358,20 +358,20 @@ main.login-page  {
 	position: relative;
 }
 
-.fa-trash-can {
-	position: absolute;
-	top: 5px;
-	right: 5px;
-	background-color: #000;
-	color: #fff;
-	height: 17px;
-	width: 17px;
-	font-size: 10px;
-	display: flex;           /* Ajout de flexbox */
-    justify-content: center; /* Centre horizontalement */
-    align-items: center;     /* Centre verticalement */
+.modal-grid .fa-trash-can {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #000;
+    color: #fff;
+    height: 17px;
+    width: 17px;
+    font-size: 11px; /* Augmentez cette valeur */
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-	border-radius: 2px;
+    border-radius: 2px;
 }
 
 .modal-grid img {
@@ -432,6 +432,7 @@ main.login-page  {
 	top: 10px;
 	right: -31px;
 	transform: translateX(100%);
+	display: none;
 }
 
 i.fa-pen-to-square {
