@@ -419,6 +419,16 @@ main.login-page  {
 	font-family: 'Syne';
 }
 
+.validPhoto {
+	display: none;
+}
+
+.modal-content .disabled {
+    pointer-events: none; /* Empêche les clics */
+    background-color: #A7A7A7;
+    cursor: not-allowed; /* Change le curseur en "interdit" */
+}
+
 .header-container {
     position: relative; /* Conteneur de référence */
 	margin-inline: auto;
@@ -571,6 +581,12 @@ i.fa-pen-to-square {
 
 .addImage input[type="file"] {
 	display: none;
+}
+
+.addImage .image-preview {
+    display: none;
+    height: 100%;
+	max-width: 420px;
 }
 
 .modal-form form {

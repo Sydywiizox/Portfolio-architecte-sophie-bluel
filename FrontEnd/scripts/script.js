@@ -33,37 +33,42 @@ if (window.location.href.includes("index.html")) {
             console.error("Token manquant ou invalide");
             return;
         }
-    
         fetch(getWorksUrl, {
             method: "POST",
-            body: formData,  // Envoi de FormData
+            body: formData, // Envoi de FormData
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         })
-        .then((response) => {
-            if (!response.ok) {
-                return response.text().then((text) => {
-                    console.error("Erreur serveur:", text);  // Log de l'erreur complète
-                    throw new Error(text);  // Lancer l'erreur avec texte de la réponse
-                });
-            }
-            return response.json();  // On traite la réponse JSON si tout est OK
-        })
-        .then((data) => {
-            console.log("Image envoyée avec succès :", data);
-        })
-        .catch((error) => {
-            console.error("Erreur:", error);
-        });
+            .then((response) => {
+                if (!response.ok) {
+                    return response.text().then((text) => {
+                        console.error("Erreur serveur:", text); // Log de l'erreur complète
+                        throw new Error(text); // Lancer l'erreur avec texte de la réponse
+                    });
+                }
+                return response.json(); // On traite la réponse JSON si tout est OK
+            })
+            .then((data) => {
+                console.log("Image envoyée avec succès :", data);
+                refreshGallery()
+            })
+            .catch((error) => {
+                console.error("Erreur:", error);
+            });
     }
 
     function deleteImage(id, divElement) {
+        const token = localStorage.getItem("auth_token");
+        if (!token) {
+            console.error("Token manquant ou invalide");
+            return;
+        }
         fetch(getWorksUrl + `/${id}`, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+                Authorization: `Bearer ${token}`,
             },
         })
             .then((response) => {
@@ -227,40 +232,165 @@ if (window.location.href.includes("index.html")) {
 
     const sendForm = () => {
         const form = document.querySelector("#imageForm");
-    
+
         if (!form) {
             console.log("Formulaire non trouvé");
             return;
         }
-    
+
         const formData = new FormData(form);
-        console.log(formData)    
-    
+        console.log(formData);
+
         // Log les données du formulaire pour vérifier
         for (let [key, value] of formData.entries()) {
-            console.log(key, value);  // Log des clés et des valeurs
+            console.log(key, value); // Log des clés et des valeurs
         }
-        
-        postImage(formData);  // Envoi de l'image
+
+        postImage(formData); // Envoi de l'image
+        form.reset();
+        resetPreview();
     };
 
-    const addPhotoModal = () => {
-        const addPhotoButton = document.querySelector(
-            ".modal-content button.addPhoto"
+    function resetPreview() {
+        const form = document.querySelector("#imageForm");
+        const imagePreview = form.querySelector(".image-preview");
+        const addImageDiv = form.querySelector(".addImage");
+        const elementsToHide = addImageDiv.querySelectorAll(
+            "i, .file-upload-label, p"
         );
-        addPhotoButton.removeEventListener("click", addPhotoModal);
-        modal.querySelector(".modal-content h2").textContent = "Ajout photo";
-        addPhotoButton.textContent = "Valider";
-        addPhotoButton.addEventListener("click", sendForm);
-        const backButton = document.querySelector(".backButton");
-        backButton.style.display = "block";
-        backButton.addEventListener("click", galleryModal);
-        const form = document.querySelector(".modal-form");
-        form.style.display = "block";
-        const grid = document.querySelector(".modal-grid");
-        grid.style.display = "none";
-        console.log(modal);
+        elementsToHide.forEach((element) => {
+            element.style.display = "block";
+        });
+        imagePreview.src = "";
+        imagePreview.style.display = "none"; // Affiche l'image de prévisualisation
+        addImageDiv.style.paddingBlock = "13px 19px";
+    }
+
+    function verifImage() {
+        const form = document.querySelector("#imageForm");
+        const fileInput = form.querySelector("#file-upload");
+        const imagePreview = form.querySelector(".image-preview");
+        const addImageDiv = form.querySelector(".addImage");
+        const elementsToHide = addImageDiv.querySelectorAll(
+            "i, .file-upload-label, p"
+        ); // Sélectionne les autres éléments à masquer
+        const file = fileInput.files[0]; // Récupère le fichier sélectionné
+        console.log(file);
+        if (file && file.type.startsWith("image/")) {
+            // Affiche l'aperçu de l'image
+            imagePreview.src = URL.createObjectURL(file);
+            imagePreview.style.display = "block"; // Affiche l'image de prévisualisation
+            addImageDiv.style.paddingBlock = "0";
+
+            // Masque les autres éléments dans le div .addImage
+            elementsToHide.forEach((element) => {
+                element.style.display = "none";
+            });
+        } else {
+            // Si aucun fichier ou fichier non image, cache la prévisualisation et affiche les autres éléments
+            imagePreview.style.display = "none";
+            imagePreview.src = "";
+            addImageDiv.style.paddingBlock = "13px 19px";
+
+            // Réaffiche les autres éléments dans le div .addImage
+            elementsToHide.forEach((element) => {
+                element.style.display = "block";
+            });
+        }
+        // Permet de modifier l'image en cliquant sur l'aperçu
+        imagePreview.addEventListener("click", () => {
+            fileInput.click(); // Ouvre à nouveau le sélecteur de fichiers
+        });
+        return fileInput.files.length > 0;
+    }
+
+    const verifForm = () => {
+        const form = document.querySelector("#imageForm");
+        const title = form.querySelector("#image-title");
+        const categ = form.querySelector("#image-categ");
+        const imageOk = verifImage();
+        const titleOk = title.value.trim() != "";
+        const categOk = categ.value > 0;
+        console.log([imageOk, title, categ]);
+        console.log("Image : " + imageOk);
+        console.log("Titre : " + titleOk);
+        console.log("Categ : " + categOk);
+        console.log(document.querySelector(".validPhoto"));
+        if (imageOk && titleOk && categOk) {
+            document.querySelector(".validPhoto").classList.remove("disabled");
+        } else document.querySelector(".validPhoto").classList.add("disabled");
     };
+
+    function loadCategories() {
+        const getCategoriesUrl = "http://localhost:5678/api/categories";
+        const categorySelect = document.querySelector("#image-categ");
+        fetch(getCategoriesUrl)
+            .then((response) => response.json())
+            .then((categories) => {
+                // Ajouter une option par défaut si nécessaire
+                const defaultOption = document.createElement("option");
+                defaultOption.value = "";
+                defaultOption.textContent = "Sélectionnez une catégorie";
+                categorySelect.appendChild(defaultOption);
+
+                // Boucler à travers les catégories et les ajouter au select
+                categories.forEach((category) => {
+                    const option = document.createElement("option");
+                    option.value = category.id; // Attribuer l'ID de la catégorie comme valeur
+                    option.textContent = category.name; // Nom de la catégorie affiché
+                    categorySelect.appendChild(option);
+                });
+            })
+            .catch((error) => {
+                console.error(
+                    "Erreur lors de la récupération des catégories :",
+                    error
+                );
+            });
+    }
+
+    function refreshGallery() {
+        const gallery = document.querySelector(".modal-grid");
+        fetch(getWorksUrl)
+            .then((response) => response.json())
+            .then((works) => {
+                const lastWork = works[works.length - 1]; // Récupère le dernier travail
+                const img = document.createElement("img");
+                img.src = lastWork.imageUrl;
+                img.alt = lastWork.title;
+
+                const divImg = document.createElement("div");
+                divImg.setAttribute("img-id", lastWork.id);
+
+                const trash = document.createElement("i");
+                trash.classList.add("fa-solid", "fa-trash-can");
+
+                trash.addEventListener("click", () => deleteImage(lastWork.id, divImg));
+
+                divImg.appendChild(img);
+                divImg.appendChild(trash);
+                gallery.appendChild(divImg);
+
+                const galleryG = document.querySelector(".gallery");
+                const figure = document.createElement("figure");
+                const imgG = document.createElement("img");
+                imgG.src = lastWork.imageUrl;
+                imgG.alt = lastWork.title;
+
+                const figcaption = document.createElement("figcaption");
+                figcaption.textContent = lastWork.title;
+                figure.setAttribute("img-id", lastWork.id);
+                figure.appendChild(imgG);
+                figure.appendChild(figcaption);
+                galleryG.appendChild(figure);
+            })
+            .catch((error) =>
+                console.error(
+                    "Erreur lors de la récupération des travaux :",
+                    error
+                )
+            );
+    }
 
     function loadGallery() {
         const gallery = document.querySelector(".modal-grid");
@@ -278,29 +408,52 @@ if (window.location.href.includes("index.html")) {
             );
     }
 
-    const galleryModal = () => {
-        const backButton = document.querySelector(".backButton");
-        backButton.style.display = "none";
-
-        modal.querySelector(".modal-content h2").textContent = "Galerie photo";
-        modal.querySelector(".modal-content button.addPhoto").textContent =
-            "Ajouter une photo";
-        const form = document.querySelector(".modal-form");
-        form.style.display = "none";
-        const grid = document.querySelector(".modal-grid");
-        grid.style.display = "grid";
-        const addPhotoButton = document.querySelector(
-            ".modal-content button.addPhoto"
-        );
-        console.log(addPhotoButton);
-        addPhotoButton.addEventListener("click", addPhotoModal);
-        console.log(modal);
+    const addPhotoModal = () => {
+        modal.querySelector(".modal-content h2").textContent = "Ajout photo";
+        modal.querySelector(".modal-content button.addPhoto").style.display =
+            "none";
+        modal.querySelector(".modal-content button.validPhoto").style.display =
+            "block";
+        document.querySelector(".backButton").style.display = "block";
+        document.querySelector(".modal-form").style.display = "block";
+        document.querySelector(".modal-grid").style.display = "none";
     };
+
+    const galleryModal = () => {
+        modal.querySelector(".backButton").style.display = "none";
+        modal.querySelector(".modal-content h2").textContent = "Galerie photo";
+        modal.querySelector(".modal-content button.addPhoto").style.display =
+            "block";
+        modal.querySelector(".modal-content button.validPhoto").style.display =
+            "none";
+        modal.querySelector(".modal-form").style.display = "none";
+        modal.querySelector(".modal-grid").style.display = "grid";
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("#imageForm");
+        form.reset();
+        resetPreview();
+    });
+
+    document.addEventListener("DOMContentLoaded", loadCategories);
+
+    const form = document.querySelector(".modal-form");
+    form.addEventListener("submit", sendForm);
+    form.addEventListener("input", verifForm);
+
     const addPhotoButton = document.querySelector(
         ".modal-content button.addPhoto"
     );
-    console.log(addPhotoButton);
     addPhotoButton.addEventListener("click", addPhotoModal);
+
+    const validPhotoButton = document.querySelector(
+        ".modal-content button.validPhoto"
+    );
+    validPhotoButton.addEventListener("click", sendForm);
+
+    const backButton = document.querySelector(".backButton");
+    backButton.addEventListener("click", galleryModal);
 }
 
 if (window.location.href.includes("login.html")) {
@@ -364,21 +517,3 @@ if (localStorage.getItem("auth_token")) {
 
     console.log(editButton);
 }
-
-/*
-fetch('url-de-la-requete', {
-    method: 'DELETE',
-    headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('auth_token')}`
-    },
-})
-.then(response => {
-    if (response.ok) {
-        console.log('Opération réussie');
-    } else {
-        console.log('Erreur de suppression');
-    }
-})
-.catch(error => console.error('Erreur:', error)); 
-*/

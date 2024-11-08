@@ -41,7 +41,7 @@
         <main>
             <section id="introduction">
                 <figure>
-                    <img src="./assets/images/sophie-bluel.png" alt="" />
+                    <img src="./assets/images/sophie-bluel.png" alt="logo sophie bluel" />
                 </figure>
                 <article>
                     <h2>Designer d'espace</h2>
@@ -68,7 +68,7 @@
                 <div class="header-container">
                     <h2>Mes Projets</h2>
                     <a class="js-modal" href="#modal"
-                        ><i class="fa-regular fa-pen-to-square"></i>modifier</a
+                        ><i href="#modal" class="fa-regular fa-pen-to-square"></i>modifier</a
                     >
                 </div>
                 <aside id="modal" class="modal">
@@ -99,20 +99,19 @@
                                         </label>
                                         <input required type="file" id="file-upload" name="image" accept="image/*" style="display: none" />
                                         <p>jpg, png : 4mo max</p>
+                                        <img class="image-preview">
                                     </div>
                                     <label for="image-title">Titre</label>
                                     <input type="text" id="image-title" name="title" required />
                                     <label for="image-categ">Catégorie</label>
                                     <select id="image-categ" name="category" required>
-                                        <option value="1">Option 1</option>
-                                        <option value="2">Option 2</option>
-                                        <option value="3">Option 3</option>
                                     </select>
                                 </form>                                
                             </div>
                             <div class="modal-grid"></div>
                             <hr />
                             <button class="addPhoto">Ajouter une photo</button>
+                            <button class="validPhoto disabled">Valider</button>
                         </div>
                     </div>
                 </aside>
