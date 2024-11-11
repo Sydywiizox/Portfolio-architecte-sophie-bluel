@@ -1,16 +1,21 @@
 import * as Auth from "./auth.js";
 import * as Login from "./login.js";
 import * as Modal from "./modal.js";
+import * as Works from "./works.js";
 import * as Categories from "./categories.js";
 
 if (window.location.href.includes("index.html")) {
-    Modal.modal()
-    Categories.categories()
+    console.log("index");
+    Modal.modal();
+    Works.works();
+    Categories.categories();
 }
 if (window.location.href.includes("login.html")) {
-    Login.login()
+    console.log("login");
+    Login.login();
 }
 
 if (localStorage.getItem("auth_token")) {
-    Auth.auth()
+    console.log("auth");
+    Auth.auth();
 }

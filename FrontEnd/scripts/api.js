@@ -1,13 +1,13 @@
 const getWorksUrl = "http://localhost:5678/api/works";
 const getCategoriesUrl = "http://localhost:5678/api/categories";
 const postLoginUrl = "http://localhost:5678/api/users/login";
-
+console.log("api.js");
 export function fetchCategories() {
-    return fetch(getCategoriesUrl)
+    return fetch(getCategoriesUrl);
 }
 
 export function fetchWorks() {
-    return fetch(getWorksUrl)
+    return fetch(getWorksUrl);
 }
 
 export function fetchLogin(formContent) {
@@ -15,7 +15,7 @@ export function fetchLogin(formContent) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formContent),
-    })
+    });
 }
 
 export function postImage(formData) {
@@ -30,7 +30,7 @@ export function postImage(formData) {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    })
+    });
 }
 
 export function deleteImage(id) {
@@ -45,5 +45,5 @@ export function deleteImage(id) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
         },
-    })
+    });
 }

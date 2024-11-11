@@ -1,3 +1,4 @@
+console.log("auth.js");
 export function auth() {
     const login = document.querySelector(".nav-login");
     const edit = document.querySelector(".edit");
@@ -24,5 +25,4 @@ export function auth() {
         document.body.prepend();
         login.addEventListener("click", handleLogout);
     }
-
 }

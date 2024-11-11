@@ -1,19 +1,43 @@
-import * as Api from './api.js';
+import * as Api from "./api.js";
+import * as Categories from "./categories.js";
 let allWorks = [];
+export function works() {
+    console.log("works.js");
+    Api.fetchWorks()
+        .then((response) => response.json())
+        .then((works) => {
+            allWorks = works;
+            displayWorks(allWorks);
+        })
+        .catch((error) =>
+            console.error("Erreur lors de la récupération des travaux :", error)
+        );
+}
 
-Api.fetchWorks()
-.then((response) => response.json())
-.then((works) => {
-    allWorks = works;
-    displayWorks(allWorks);
-})
-.catch((error) =>
-    console.error("Erreur lors de la récupération des travaux :", error)
-);
+function displayGallery(works, element) {
+    works.forEach((work) => {
+        const img = document.createElement("img");
+        img.src = work.imageUrl;
+        img.alt = work.title;
+
+        const divImg = document.createElement("div");
+        divImg.setAttribute("img-id", work.id);
+
+        const trash = document.createElement("i");
+        trash.classList.add("fa-solid", "fa-trash-can");
+
+        trash.addEventListener("click", () => deleteImage(work.id, divImg));
+
+        divImg.appendChild(img);
+        divImg.appendChild(trash);
+        element.appendChild(divImg);
+    });
+}
+
 
 export function getWorks() {
     return allWorks;
-} 
+}
 
 export function displayWorks(works) {
     const gallery = document.querySelector(".gallery");
@@ -56,6 +80,7 @@ export function postImage(formData) {
         .catch((error) => {
             console.error("Erreur:", error);
         });
+    Categories.refresh();
 }
 
 export function refreshGallery() {
@@ -94,15 +119,22 @@ export function refreshGallery() {
             figure.appendChild(imgG);
             figure.appendChild(figcaption);
             galleryG.appendChild(figure);
+            Api.fetchWorks()
+                .then((response) => response.json())
+                .then((works) => {
+                    allWorks = works;
+                })
+                .catch((error) =>
+                    console.error(
+                        "Erreur lors de la récupération des travaux :",
+                        error
+                    )
+                );
         })
         .catch((error) =>
-            console.error(
-                "Erreur lors de la récupération des travaux :",
-                error
-            )
+            console.error("Erreur lors de la récupération des travaux :", error)
         );
 }
-
 export function loadGallery() {
     const gallery = document.querySelector(".modal-grid");
     Api.fetchWorks()
@@ -112,33 +144,9 @@ export function loadGallery() {
             displayGallery(allWorks, gallery);
         })
         .catch((error) =>
-            console.error(
-                "Erreur lors de la récupération des travaux :",
-                error
-            )
+            console.error("Erreur lors de la récupération des travaux :", error)
         );
 }
-
-function displayGallery(works, element) {
-    works.forEach((work) => {
-        const img = document.createElement("img");
-        img.src = work.imageUrl;
-        img.alt = work.title;
-
-        const divImg = document.createElement("div");
-        divImg.setAttribute("img-id", work.id);
-
-        const trash = document.createElement("i");
-        trash.classList.add("fa-solid", "fa-trash-can");
-
-        trash.addEventListener("click", () => deleteImage(work.id, divImg));
-
-        divImg.appendChild(img);
-        divImg.appendChild(trash);
-        element.appendChild(divImg);
-    });
-}
-
 export function deleteImage(id, divElement) {
     const token = localStorage.getItem("auth_token");
     if (!token) {

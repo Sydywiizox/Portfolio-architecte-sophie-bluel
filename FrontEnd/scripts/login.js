@@ -1,5 +1,5 @@
 import * as Api from "./api.js";
-
+console.log("login.js");
 export function login() {
     const formLogin = document.querySelector("#login form");
     formLogin.addEventListener("submit", function (event) {
@@ -15,7 +15,7 @@ export function login() {
                 const password = document.querySelector("#password");
                 const emailError = document.querySelector("#email-error");
                 const passwordError = document.querySelector("#password-error");
-    
+
                 // Réinitialiser les styles
                 email.classList.remove("invalid");
                 password.classList.remove("invalid");
@@ -23,7 +23,7 @@ export function login() {
                 passwordError.style.visibility = "hidden";
                 password.style.outline = "none";
                 email.style.outline = "none";
-    
+
                 if (response.ok) {
                     return response.json();
                 } else if (response.status === 404) {

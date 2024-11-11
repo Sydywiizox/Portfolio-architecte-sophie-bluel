@@ -1,5 +1,6 @@
 import * as Api from "./api.js";
 import * as Works from "./works.js";
+console.log("modal.js");
 export function modal() {
     let modal = null;
     const selectable = "button, a, input, textarea";
@@ -170,7 +171,6 @@ export function modal() {
     };
 
     function loadCategories() {
-        const getCategoriesUrl = "http://localhost:5678/api/categories";
         const categorySelect = document.querySelector("#image-categ");
         Api.fetchCategories()
             .then((response) => response.json())
