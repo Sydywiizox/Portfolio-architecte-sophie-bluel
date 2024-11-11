@@ -266,15 +266,44 @@ main.login-page  {
 }
 
 #login #email {
-	margin-bottom: 30px;
+
 }
 
-#login .input-group {
+#login .input-big-group {
 	width: 100%;
 	display: flex;
 	flex-direction: column;
 	margin-block: 37px;
 }
+
+.input-group {
+    position: relative; /* Pour que l'input et le message d'erreur aient la même base */
+}
+
+.input-group:first-child {
+	margin-bottom: 30px;
+}
+
+.input-group input {
+    position: relative;
+    width: 100%;
+    padding: 8px;
+}
+
+.error-message {
+    position: absolute;
+    top: 100%; /* Juste en dessous de l'input */
+    left: 0;
+    color: red;
+    font-size: 0.875em; /* Ajuste la taille si besoin */
+    visibility: hidden; /* Masquer par défaut */
+    margin-top: 4px; /* Espacement pour éviter de toucher l'input */
+}
+
+.input-group input.invalid + .error-message {
+    visibility: visible;
+}
+
 
 #login button {
 	width: fit-content;
