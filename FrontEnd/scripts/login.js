@@ -1,5 +1,4 @@
 import * as Api from "./api.js";
-console.log("login.js");
 export function login() {
     const formLogin = document.querySelector("#login form");
     formLogin.addEventListener("submit", function (event) {

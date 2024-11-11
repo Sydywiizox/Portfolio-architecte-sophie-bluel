@@ -1,6 +1,5 @@
 import * as Api from "./api.js";
 import * as Works from "./works.js";
-console.log("categ.js");
 export function categories() {
     Api.fetchCategories()
         .then((response) => response.json())

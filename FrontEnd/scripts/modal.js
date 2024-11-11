@@ -1,6 +1,5 @@
 import * as Api from "./api.js";
 import * as Works from "./works.js";
-console.log("modal.js");
 export function modal() {
     let modal = null;
     const selectable = "button, a, input, textarea";
@@ -88,12 +87,6 @@ export function modal() {
         }
 
         const formData = new FormData(form);
-        console.log(formData);
-
-        // Log les données du formulaire pour vérifier
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value); // Log des clés et des valeurs
-        }
 
         Works.postImage(formData); // Envoi de l'image
         form.reset();
@@ -124,7 +117,6 @@ export function modal() {
             "i, .file-upload-label, p"
         ); // Sélectionne les autres éléments à masquer
         const file = fileInput.files[0]; // Récupère le fichier sélectionné
-        console.log(file);
         if (file && file.type.startsWith("image/")) {
             // Affiche l'aperçu de l'image
             imagePreview.src = URL.createObjectURL(file);
@@ -160,11 +152,6 @@ export function modal() {
         const imageOk = verifImage();
         const titleOk = title.value.trim() != "";
         const categOk = categ.value > 0;
-        console.log([imageOk, title, categ]);
-        console.log("Image : " + imageOk);
-        console.log("Titre : " + titleOk);
-        console.log("Categ : " + categOk);
-        console.log(document.querySelector(".validPhoto"));
         if (imageOk && titleOk && categOk) {
             document.querySelector(".validPhoto").classList.remove("disabled");
         } else document.querySelector(".validPhoto").classList.add("disabled");

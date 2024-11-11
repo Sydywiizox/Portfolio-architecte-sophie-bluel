@@ -2,7 +2,6 @@ import * as Api from "./api.js";
 import * as Categories from "./categories.js";
 let allWorks = [];
 export function works() {
-    console.log("works.js");
     Api.fetchWorks()
         .then((response) => response.json())
         .then((works) => {

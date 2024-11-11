@@ -1,7 +1,6 @@
 const getWorksUrl = "http://localhost:5678/api/works";
 const getCategoriesUrl = "http://localhost:5678/api/categories";
 const postLoginUrl = "http://localhost:5678/api/users/login";
-console.log("api.js");
 export function fetchCategories() {
     return fetch(getCategoriesUrl);
 }
