@@ -22,7 +22,8 @@ export function login() {
                 passwordError.style.visibility = "hidden";
                 password.style.outline = "none";
                 email.style.outline = "none";
-
+                passwordError.textContent = "Le mot de passe est incorrect.";
+                emailError.textContent = "L'adresse e-mail est incorrecte.";
                 if (response.ok) {
                     return response.json();
                 } else if (response.status === 404) {
@@ -30,17 +31,11 @@ export function login() {
                     email.style.outline = "2px solid red";
                     password.style.outline = "2px solid red";
                     emailError.style.visibility = "visible";
-                    emailError.textContent = "L'adresse e-mail est incorrecte.";
                     password.classList.add("invalid");
-                    passwordError.style.visibility = "visible";
-                    passwordError.textContent =
-                        "Le mot de passe est incorrect.";
                 } else if (response.status === 401) {
                     password.classList.add("invalid");
                     password.style.outline = "2px solid red";
                     passwordError.style.visibility = "visible";
-                    passwordError.textContent =
-                        "Le mot de passe est incorrect.";
                 } else {
                     throw new Error("Échec de la connexion.");
                 }

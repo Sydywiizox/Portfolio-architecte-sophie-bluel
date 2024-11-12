@@ -1,9 +1,10 @@
 import * as Api from "./api.js";
 import * as Works from "./works.js";
+let focusable = [];
+
 export function modal() {
     let modal = null;
-    const selectable = "button, a, input, textarea";
-    let focusable = [];
+    const selectable = "button:not(.backButton),i.fa-arrow-left, i.fa-trash-can,label.file-upload-label, input, .image-preview, select";
     let previouslyFocus = null;
     Works.loadGallery();
     const openModal = function (e) {
@@ -59,13 +60,20 @@ export function modal() {
         e.preventDefault();
         const focusedElement = document.activeElement;
         let index = focusable.indexOf(focusedElement);
-        e.shiftKey === true ? index-- : index++;
-        if (index >= focusable.length) {
-            index = 0;
-        }
-        if (index < 0) {
-            index = focusable.length - 1;
-        }
+        do{
+            if(e.shiftKey === true) {
+                index--;    
+            } else {
+                index++;    
+            }
+            if (index >= focusable.length) {
+                index = 0;
+            }
+            if (index < 0) {
+                index = focusable.length - 1;
+            }
+        } while(focusable[index].offsetParent === null || focusable[index].classList.contains('disabled'))       
+        focusable[index].setAttribute('tabindex', '0')
         focusable[index].focus();
     };
 
@@ -76,6 +84,11 @@ export function modal() {
         if (e.key === "Tab" && modal !== null) {
             focusInModal(e);
         }
+        if (e.key === 'Enter') {
+            const element = document.activeElement;
+            if(element.classList.contains('validPhoto')) return;
+            element.click();
+          }
     });
 
     const sendForm = () => {
@@ -91,6 +104,7 @@ export function modal() {
         Works.postImage(formData); // Envoi de l'image
         form.reset();
         resetPreview();
+        document.querySelector(".validPhoto").classList.add("disabled");
     };
 
     function resetPreview() {

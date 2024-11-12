@@ -259,14 +259,7 @@ main.login-page  {
 	filter: drop-shadow(0px 4px 14px rgba(0,0,0,0.09));
 	font: inherit;
 	padding-inline: 15px;
-}
-
-#login form label {
-	margin-bottom: 7px;
-}
-
-#login #email {
-
+	margin-top: 7px;
 }
 
 #login .input-big-group {
@@ -277,7 +270,7 @@ main.login-page  {
 }
 
 .input-group {
-    position: relative; /* Pour que l'input et le message d'erreur aient la même base */
+    position: relative;
 }
 
 .input-group:first-child {
