@@ -33,7 +33,6 @@ function displayGallery(works, element) {
     });
 }
 
-
 export function getWorks() {
     return allWorks;
 }
@@ -42,11 +41,25 @@ export function displayWorks(works) {
     const gallery = document.querySelector(".gallery");
     gallery.innerHTML = "";
 
+    let loadedImages = 0;
+
     works.forEach((work) => {
         const figure = document.createElement("figure");
         const img = document.createElement("img");
         img.src = work.imageUrl;
         img.alt = work.title;
+
+        img.addEventListener("load", () => {
+            loadedImages++;
+            if (loadedImages === works.length) {
+                const url = window.location.hash;
+                if (url === "#contact") {
+                    console.log("Contact");
+                    const contact = document.querySelector("#contact");
+                    contact.scrollIntoView();
+                }
+            }
+        });
 
         const figcaption = document.createElement("figcaption");
         figcaption.textContent = work.title;
