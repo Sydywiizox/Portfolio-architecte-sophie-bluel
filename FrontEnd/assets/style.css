@@ -1,0 +1,669 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+html {
+	scroll-behavior: smooth;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+/** end reset css**/
+:root {
+	--green : #1D6154;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	max-width: 1140px;
+	margin:auto;
+	font-family: 'Work Sans' ;
+	font-size: 14px;
+	line-height: 1.2;
+	background-color: #fffef8;
+}
+header {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0
+}
+section {
+	margin: 50px 0
+}
+
+h1{
+	display: flex;
+	flex-direction: column;
+	font-family: 'Syne';
+	font-size: 22px;
+	font-weight: 800;
+	color: #B1663C
+}
+
+h1 > span {
+	font-family: 'Work Sans';
+	font-size:10px;
+	letter-spacing: 0.1em;
+;
+}
+
+h2{
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 30px;
+	color: var(--green)
+}
+nav ul {
+	display: flex;
+	align-items: center;
+	list-style-type: none;
+	gap: 44px;
+
+}
+nav li {
+	font-size: 16px;
+	line-height: 1.2;
+}
+
+li:hover {
+	font-weight: 700;
+}
+
+nav li::after {
+	display: block;
+	content: attr(data-text);
+	font-weight: 700;
+	height: 0;
+	overflow: hidden;
+	visibility: hidden;
+}
+
+nav img {
+	width: 19px;
+	height: 19px;
+	transition: all 0.1s linear;
+	cursor: pointer;
+}
+
+nav img:hover {
+	transform: scale(1.2);
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+#introduction {
+	display: flex;
+	align-items: center;
+}
+#introduction figure {
+	flex: 1
+}
+#introduction img {
+	display: block;
+	margin: auto;
+	width: 80%;
+}
+
+#introduction article {
+	flex: 1
+}
+#introduction h2 {
+	margin-bottom: 1em;
+}
+
+#introduction p {
+	margin-bottom: 0.5em;
+}
+#portfolio h2 {
+	text-align: center;
+	display: inline-block;
+}
+.gallery {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-column-gap: 20px;
+	grid-row-gap: 20px;
+}
+
+.gallery img {
+	width: 100%;
+	/*Enlever si inutile*/
+	height: 100%;
+	object-fit: cover;
+}
+#contact {
+	width: 50%;
+margin: auto;
+}
+#contact > * {
+	text-align: center;
+
+}
+#contact h2{
+	margin-bottom: 20px;
+}
+#contact form {
+	text-align: left;
+	margin-top:30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#contact input {
+	height: 50px;
+	font-size: 1.2;
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+#contact label {
+	margin: 2em 0 1em 0;
+}
+#contact textarea {
+	border: none;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
+
+input[type="submit"]{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: var(--green);
+	margin : 2em auto ;
+	width: 180px;
+	text-align: center;
+	border-radius: 60px ;
+}
+
+footer nav ul {
+	display: flex;
+	justify-content: flex-end;
+	margin: 2em
+}
+
+.categories {
+	height: 38px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+	margin-block: 51px 50px;
+}
+
+.categorie {
+	height: 100%;
+	color: var(--green);
+	background-color: transparent;
+	border: 1px solid var(--green);
+	padding-inline: 20px;
+	border-radius: 60px;
+	font-size: 16px;
+	font-weight: 700;
+	font-family: 'Syne';
+}
+
+.categorie.active, .categorie:hover {
+	color: #fff;
+	background-color: var(--green);
+	cursor: pointer;
+}
+
+/* Log in */
+
+main.login-page  {
+	min-height: calc(100vh - 315px);
+}
+
+#login {
+	margin-top: 150px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 379px;
+	margin-inline: auto;
+}
+
+#login h2 {
+	text-align: center;
+}
+
+#login form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#login form input {
+	width: 100%;
+	height: 51px;
+	border: 0;
+	filter: drop-shadow(0px 4px 14px rgba(0,0,0,0.09));
+	font: inherit;
+	padding-inline: 15px;
+	margin-top: 7px;
+}
+
+#login .input-big-group {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	margin-block: 37px;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-group:first-child {
+	margin-bottom: 30px;
+}
+
+.input-group input {
+    position: relative;
+    width: 100%;
+    padding: 8px;
+}
+
+.error-message {
+    position: absolute;
+    top: 100%; /* Juste en dessous de l'input */
+    left: 0;
+    color: red;
+    font-size: 0.875em; /* Ajuste la taille si besoin */
+    visibility: hidden; /* Masquer par défaut */
+    margin-top: 4px; /* Espacement pour éviter de toucher l'input */
+}
+
+.input-group input.invalid + .error-message {
+    visibility: visible;
+}
+
+
+#login button {
+	width: fit-content;
+	padding: 10px 39px;
+	border: none;
+	border-radius: 60px;
+	color: #fff;
+	background-color: var(--green);
+	font: inherit;
+	font-weight: 700;
+	margin-bottom: 28px;
+	cursor: pointer;
+}
+
+#login .forgot-password {
+	text-decoration: underline;
+}
+
+/* Modal */
+
+.modal {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.8);
+	align-items: center;
+	justify-content: center;
+	display: none;
+	animation: fadeIn .3s both;
+}
+
+.modal-wrapper {
+	width: 630px;
+	max-width: calc(100vw - 20px);
+	height: 688px;
+	max-height: calc(100vh - 20px);
+	overflow: auto;
+	background-color: #fff;
+	border-radius: 10px;
+	padding: 60px 105px 45px;
+	animation: slideFromTop .2s both .1s;
+	position: relative;
+}
+
+.modal-content {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+#modal .modal-content h2 {
+	font-family: "Work Sans";
+	font-size: 26px;
+	font-weight: 400;
+	margin-bottom: 46px;
+	color: black;
+}
+
+.modal-grid {
+    height: 364px;
+    overflow: auto;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 9px;
+    row-gap: 29px;
+    margin-bottom: 67px;
+    grid-auto-rows: 101px;
+}
+
+.modal-grid div {
+    text-align: center;
+    align-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: relative;
+}
+
+.modal-grid .fa-trash-can {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #000;
+    color: #fff;
+    height: 17px;
+    width: 17px;
+    font-size: 11px; /* Augmentez cette valeur */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 2px;
+}
+
+.modal-grid img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.modal-form {
+	height: 375px;
+	width: 100%;
+	margin-bottom: 47px;
+	display: none;}
+
+.modal-content hr {
+	width: 100%;
+	margin: 0;
+	border: 0;
+	height: 1px;
+	position: relative;
+	margin-bottom: 38px;
+}
+
+.modal-content hr::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 1px;
+	margin: 0;
+	border: 0;
+	background-color: #B3B3B3;
+	width: 100%;
+}
+
+.modal-content button {
+	width: fit-content;
+	padding: 10px 49px;
+	border: none;
+	border-radius: 60px;
+	color: #fff;
+	background-color: var(--green);
+	font-weight: 700;
+	font-size: 14px;
+	cursor: pointer;
+	font-family: 'Syne';
+}
+
+.modal-content button:hover {
+	background-color: #0E2F28;
+}
+
+.validPhoto {
+	display: none;
+}
+
+.modal-content .disabled {
+    pointer-events: none; /* Empêche les clics */
+    background-color: #A7A7A7;
+    cursor: not-allowed; /* Change le curseur en "interdit" */
+}
+
+.header-container {
+    position: relative; /* Conteneur de référence */
+	margin-inline: auto;
+	width: fit-content;
+}
+
+.js-modal {
+	position: absolute;
+	top: 10px;
+	right: -31px;
+	transform: translateX(100%);
+	display: none;
+}
+
+i.fa-pen-to-square {
+	margin-right: 10px;
+}
+
+.js-modal-close {
+	top: 32px;
+	right: 36px;
+	position: absolute;
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
+	padding: 6px;
+	height: 24px;
+	width: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.js-modal-close i {
+	font-size: 18px;
+	height: 12px;
+	width: 12px;
+	line-height: 1;
+	display: inline-flex; /* Pour s'assurer que le parent prend en compte la taille */
+    align-items: center;
+    justify-content: center;
+}
+
+.modal[aria-hidden="true"] {
+	animation: fadeOut .2s both .1s;
+}
+
+.modal[aria-hidden="true"] .modal-wrapper{
+	animation: slideToTop .3s both;
+}
+
+.edit {
+	position: relative;
+	height: 59px;
+	background-color: black;
+	color: #fff;
+	text-align: center;
+	display: none;
+	z-index: 2;
+	line-height: 56px;
+	justify-self: center;
+	width: 100vw;
+  	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.modal .backButton {
+	top: 26px;
+	left: 30px;
+	position: absolute;
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
+	padding: 6px;
+	height: 24px;
+	width: 24px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	display: none;
+}
+
+.modal .backButton i {
+	font-size: 21px;
+	height: 21px;
+	width: 21px;
+	line-height: 1;
+	display: inline-flex; /* Pour s'assurer que le parent prend en compte la taille */
+    align-items: center;
+    justify-content: center;
+	color: #000;
+}
+
+@keyframes fadeIn {
+	from {opacity: 0;}
+	to {opacity: 1;}
+}
+
+@keyframes slideFromTop {
+	from {transform: translateY(-50px);}
+	to {transform: translateY(0);}
+}
+
+@keyframes fadeOut {
+	from {opacity: 1;}
+	to {opacity: 0;}
+}
+
+@keyframes slideToTop {
+	from {transform: translateY(0);}
+	to {transform: translateY(-50px);}
+}
+
+.addImage {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 3px;
+	background-color: #E8F1F6;
+	width: 100%;
+	height: 169px;
+	padding-block: 13px 19px;
+	font-family: "Work Sans";
+	margin-bottom: 30px;
+}
+
+.addImage i {
+	font-size: 76px;
+	color: #B9C5CC;
+}
+
+.addImage .file-upload-label {
+	font-size: 14px;
+	font-weight: 500;
+	background-color: #B9C5CC;
+	padding: 10px 33px;
+	border-radius: 50px;
+	cursor: pointer;
+	color: #306685;
+}
+
+.addImage p {
+	font-size: 10px;
+	color: #444;
+}
+
+.addImage input[type="file"] {
+	display: none;
+}
+
+.addImage .image-preview {
+    display: none;
+    height: 100%;
+	max-width: 420px;
+}
+
+.modal-form form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.modal-form form label:not(.addImage label) {
+	margin-bottom: 10px;
+	line-height: 16px;
+	align-self: self-start;
+}
+
+.modal-form form input, .modal-form form select {
+	width: 100%;
+	height: 51px;
+	border: 0;
+	filter: drop-shadow(0px 4px 14px rgba(0,0,0,0.09));
+	font: inherit;
+	padding-inline: 15px;
+	background-color: #fff;
+}
+
+#image-title {
+	margin-bottom: 21px;
+}
