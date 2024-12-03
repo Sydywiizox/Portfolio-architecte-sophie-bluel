@@ -169,9 +169,11 @@ a {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 38px;
 }
-
+figcaption {
+	margin-top: 5px;
+}
 .gallery img {
 	width: 100%;
 	/*Enlever si inutile*/
